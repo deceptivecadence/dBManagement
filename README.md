@@ -1,4 +1,4 @@
-table_drop_nosferatu
+drop_table_nosferatu
 ============
 
 Database Management - Alan Labouseur - Spring 2014
