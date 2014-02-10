@@ -1,7 +1,7 @@
 ﻿--Mike Mucci
 --Spring 2014
 --Lab 4
---2/8/14
+--2/9/14
 
 --1
 select city
@@ -14,11 +14,16 @@ where aid in (
 				from customers
 				where name = 'Basics'))
 
---2 not finished
-select cid from customers where city = 'Kyoto'
-select * from agents
-select * from orders where cid in (select cid from customers where city = 'Kyoto')
-
+--2
+select distinct pid
+from orders
+where aid in (
+		select aid
+		from orders
+		where cid in (
+				select cid
+				from customers
+				where city = 'Kyoto'))
 --3
 select cid, name
 from customers
@@ -42,7 +47,12 @@ where cid in (
 					from orders
 					where pid = 'p07'))
 --5
-select distinct pid from orders where aid = 'a03'
+select distinct pid
+from orders
+where cid in (
+		select cid
+		from orders
+		where aid = 'a03')
 
 --6
 select name, discount
