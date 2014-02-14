@@ -1,7 +1,7 @@
 ﻿--Mike Mucci
 --Spring 2014
 --Lab 4
---2/9/14
+--2/13/14
 
 --1
 select city
@@ -27,10 +27,10 @@ where aid in (
 --3
 select cid, name
 from customers
-where cid in (
+where cid not in (
 		select cid
 		from orders
-		where pid <> 'a03')
+		where aid = 'a03')
 
 --4
 select cid, name
