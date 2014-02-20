@@ -12,11 +12,14 @@ AND   customers.name = 'Basics'
 AND   agents.aid = orders.aid
 
 --2 ? 
-SELECT aid
-FROM customers,
-     orders
+SELECT DISTINCT o2.pid
+FROM customers 
+JOIN orders AS o1
+ON customers.cid = o1.cid
+RIGHT JOIN orders AS o2
+ON o2.aid = o1.aid
 WHERE customers.city = 'Kyoto'
-AND   customers.cid = orders.cid
+ORDER BY o2.pid ASC
 
 --3
 SELECT name
@@ -33,18 +36,43 @@ WHERE orders.ordno is NULL
 
 
 --7
-SELECT customers.name, customers.city
+SELECT name, city
 FROM customers
-WHERE customers.city = (SELECT MIN(products.city) FROM products)
+WHERE city in (
+SELECT city
+FROM (
+	SELECT p1.city, SUM(p1.quantity) as sum
+	FROM products AS p1
+	GROUP BY p1.city
+)AS sumTable2
+where sum IN (
+	SELECT MIN(sum)
+	FROM (
+		SELECT p1.city, SUM(p1.quantity) as sum
+		FROM products AS p1
+		GROUP BY p1.city
+	)AS sumTable))
+
+	
+
+		
 
 
 
-select distinct pid
-from orders
-where aid in (
-select aid
-from orders
-where cid in (
-select cid
-from customers
-where city = 'Kyoto'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
