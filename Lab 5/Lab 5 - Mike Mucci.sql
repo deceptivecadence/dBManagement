@@ -68,27 +68,3 @@ WHERE sum IN (
 		FROM products AS p1
 		GROUP BY p1.city
 	)AS sumTable))
-
-	
-
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
