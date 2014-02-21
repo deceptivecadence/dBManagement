@@ -46,7 +46,10 @@ ON customers.cid = city_cid.cid
 AND customers.city = city_cid.city
 
 --6
-
+SELECT customers.name, agents.name, agents.city
+FROM customers
+JOIN agents
+ON agents.city = customers.city
 
 --7
 SELECT name, city
