@@ -11,7 +11,7 @@ WHERE customers.cid = orders.cid
 AND   customers.name = 'Basics'
 AND   agents.aid = orders.aid
 
---2 ? 
+--2 
 SELECT DISTINCT o2.pid
 FROM customers 
 JOIN orders AS o1
@@ -34,18 +34,31 @@ LEFT OUTER JOIN orders
 ON orders.cid = customers.cid
 WHERE orders.ordno is NULL
 
+--5
+SELECT DISTINCT customers.name AS "Customer Name" , city_cid.name AS "Agent Name"
+FROM customers
+JOIN (
+	SELECT agents.name, agents.city, orders.cid
+	FROM agents
+	JOIN orders
+	ON agents.aid = orders.aid) as city_cid
+ON customers.cid = city_cid.cid
+AND customers.city = city_cid.city
+
+--6
+
 
 --7
 SELECT name, city
 FROM customers
 WHERE city in (
-SELECT city
-FROM (
-	SELECT p1.city, SUM(p1.quantity) as sum
-	FROM products AS p1
-	GROUP BY p1.city
-)AS sumTable2
-where sum IN (
+		SELECT city
+		FROM (
+			SELECT p1.city, SUM(p1.quantity) as sum
+			FROM products AS p1
+			GROUP BY p1.city
+		)AS sumTable2
+WHERE sum IN (
 	SELECT MIN(sum)
 	FROM (
 		SELECT p1.city, SUM(p1.quantity) as sum
