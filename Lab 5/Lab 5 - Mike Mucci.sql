@@ -60,11 +60,8 @@ WHERE city in (
 			SELECT p1.city, SUM(p1.quantity) as sum
 			FROM products AS p1
 			GROUP BY p1.city
+			ORDER BY sum ASC
+			LIMIT 1
 		)AS sumTable2
-WHERE sum IN (
-	SELECT MIN(sum)
-	FROM (
-		SELECT p1.city, SUM(p1.quantity) as sum
-		FROM products AS p1
-		GROUP BY p1.city
-	)AS sumTable))
+)
+
