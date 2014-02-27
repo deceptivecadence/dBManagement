@@ -59,10 +59,13 @@ ON orders.aid = agents.aid
 WHERE orders.aid in (SELECT aid FROM agents WHERE city = 'New York')
 
 --7
-SELECT *, (orders.qty * products.priceUSD(1-customers.discount)) as realDollarAmount
-FROM  orders
-JOIN products
-ON orders.pid = products.pid
-JOIN customers
-ON orders.cid = customers.cid
+SELECT *
+FROM(
+	SELECT orders.*, ((orders.qty * products.priceUSD)*(1-(customers.discount*.01))) as "realDollarAmount"
+	FROM  orders
+	JOIN products
+	ON orders.pid = products.pid
+	JOIN customers
+	ON orders.cid = customers.cid) AS combo
+WHERE combo.dollars <> combo."realDollarAmount"
 
