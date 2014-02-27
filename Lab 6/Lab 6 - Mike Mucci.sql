@@ -16,7 +16,16 @@ WHERE city in (
 	      )
 
 --2
-
+SELECT name, city
+FROM customers
+WHERE city in (
+		SELECT city
+		FROM (
+			SELECT city, SUM(quantity)
+			FROM products
+			GROUP BY city
+			ORDER BY SUM DESC) as mostProdCity
+	      )
 
 --3
 SELECT products.*
@@ -49,7 +58,11 @@ JOIN agents
 ON orders.aid = agents.aid
 WHERE orders.aid in (SELECT aid FROM agents WHERE city = 'New York')
 
-
-
-
+--7
+SELECT *, (orders.qty * products.priceUSD(1-customers.discount)) as realDollarAmount
+FROM  orders
+JOIN products
+ON orders.pid = products.pid
+JOIN customers
+ON orders.cid = customers.cid
 
