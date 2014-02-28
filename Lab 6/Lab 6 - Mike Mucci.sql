@@ -11,7 +11,7 @@ WHERE city in (
 			SELECT city, SUM(quantity)
 			FROM products
 			GROUP BY city
-			ORDER BY SUM DESC
+			ORDER BY sum DESC
 			LIMIT 1) as mostProdCity
 	      )
 
@@ -41,9 +41,9 @@ ON orders.cid = customers.cid
 ORDER BY dollars DESC
 
 --5
-SELECT customers.*, COALESCE(orderSum.sum , 00.00)
+SELECT customers.name, COALESCE(orderSum.sum , 0)
 FROM customers 
-LEFT JOIN(SELECT cid, SUM(dollars) FROM orders GROUP BY cid) AS orderSum
+LEFT JOIN(SELECT cid, SUM(qty) FROM orders GROUP BY cid) AS orderSum
 ON orderSum.cid = customers.cid
 ORDER BY customers.cid ASC
 
